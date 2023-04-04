@@ -2,13 +2,14 @@ public class GestionJeu {
     
     private EnsembleChaines chaines;
     private int positionX;
-    private int positionY;
+    private Vaisseau vaisseau;
+    private boolean lancer;
 
     public GestionJeu(){
         this.chaines = new EnsembleChaines();
-        chaines.ajouteChaine(positionX, positionY, "@@");
         this.positionX = 0;
-        this.positionY = 30;
+        this.vaisseau = new Vaisseau(positionX);
+        this.lancer = false;
     }
 
     public int getHauteur(){
@@ -20,24 +21,37 @@ public class GestionJeu {
     }
 
     public void toucheGauche(){
-        System.out.println("GAUCHEEE");
-        this.positionY -= 1;
+        if(vaisseau.getPosX() > 0){ //ne va pas vers la gauche si le vaisseau touche le bord
+            vaisseau.setPosX(-1);
+        }
     }
 
     public void toucheDroite(){
-        System.out.println("DROITEEE");
-        this.positionX += 1;
+        if(vaisseau.getPosX() < this.getLargeur()-13){ //ne va pas vers la droite si le vaisseau touche le bord (largeur du vaisseau = 13)
+            vaisseau.setPosX(1);
+        }
     }
 
     public void toucheEspace(){
-        System.out.println("Appui sur la touche espace");
+        this.lancer = true;
+        getChaines();
     }
 
     public EnsembleChaines getChaines(){
-        return this.chaines;
+        if(this.lancer){
+            EnsembleChaines projectile = new EnsembleChaines();
+            projectile.union(new Projectile(vaisseau.positionCanon(), 10).getEnsembleChaines());
+            System.out.println(vaisseau.positionCanon());
+            this.lancer = false;
+            return projectile;
+        }
+        EnsembleChaines dessinVaisseau = new EnsembleChaines();
+        dessinVaisseau.union(this.vaisseau.getEnsembleChaine());;
+        return dessinVaisseau;
     }
 
     public void jouerUnTour(){
+        getChaines();
     }
 
 }

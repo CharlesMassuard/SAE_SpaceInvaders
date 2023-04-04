@@ -3,7 +3,7 @@ public class EnsembleChaines {
     ArrayList<ChainePositionnee> chaines;
     public EnsembleChaines(){chaines= new ArrayList<ChainePositionnee>(); }
 
-    public void ajouteChaine(int x, int y, String c){
+    public void ajouteChaine(double x, double y, String c){
         chaines.add(new ChainePositionnee(x,y,c));}
 
     public void union(EnsembleChaines e){
