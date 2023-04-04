@@ -4,6 +4,7 @@ public class GestionJeu {
     private int positionX;
     private Vaisseau vaisseau;
     private boolean lancer;
+    private Projectile projectile;
 
     public GestionJeu(){
         this.chaines = new EnsembleChaines();
@@ -34,24 +35,19 @@ public class GestionJeu {
 
     public void toucheEspace(){
         this.lancer = true;
-        getChaines();
     }
 
     public EnsembleChaines getChaines(){
+        EnsembleChaines laChaine = new EnsembleChaines();
+        laChaine.union(this.vaisseau.getEnsembleChaine());;
         if(this.lancer){
-            EnsembleChaines projectile = new EnsembleChaines();
-            projectile.union(new Projectile(vaisseau.positionCanon(), 10).getEnsembleChaines());
-            System.out.println(vaisseau.positionCanon());
+            laChaine.union(new Projectile(vaisseau.positionCanon(), 10).getEnsembleChaines());
             this.lancer = false;
-            return projectile;
         }
-        EnsembleChaines dessinVaisseau = new EnsembleChaines();
-        dessinVaisseau.union(this.vaisseau.getEnsembleChaine());;
-        return dessinVaisseau;
+        return laChaine;
     }
 
     public void jouerUnTour(){
-        getChaines();
     }
 
 }
