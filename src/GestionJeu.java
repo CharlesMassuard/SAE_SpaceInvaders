@@ -3,14 +3,15 @@ public class GestionJeu {
     private EnsembleChaines chaines;
     private int positionX;
     private Vaisseau vaisseau;
-    private boolean lancer;
+    private int score;
     private Projectile projectile;
 
     public GestionJeu(){
         this.chaines = new EnsembleChaines();
         this.positionX = 0;
         this.vaisseau = new Vaisseau(positionX);
-        this.lancer = false;
+        this.score = 0;
+        this.projectile = null;
     }
 
     public int getHauteur(){
@@ -34,20 +35,23 @@ public class GestionJeu {
     }
 
     public void toucheEspace(){
-        this.lancer = true;
+        this.projectile = new Projectile(vaisseau.positionCanon(), 4);
     }
 
     public EnsembleChaines getChaines(){
         EnsembleChaines laChaine = new EnsembleChaines();
-        laChaine.union(this.vaisseau.getEnsembleChaine());;
-        if(this.lancer){
-            laChaine.union(new Projectile(vaisseau.positionCanon(), 10).getEnsembleChaines());
-            this.lancer = false;
+        laChaine.union(this.vaisseau.getEnsembleChaine());
+        // laChaine.union(this.score.getEnsembleChaines());
+        if(this.projectile != null){
+            laChaine.union(this.projectile.getEnsembleChaines());
         }
         return laChaine;
     }
 
     public void jouerUnTour(){
+        if(this.projectile != null){
+            this.projectile.evolue();
+        }
     }
 
 }

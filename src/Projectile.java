@@ -9,7 +9,7 @@ public class Projectile {
 
     public EnsembleChaines getEnsembleChaines(){
         EnsembleChaines projectile = new EnsembleChaines();
-        projectile.ajouteChaine(positionX, positionY, "^");
+        projectile.ajouteChaine(positionX, positionY, "█");
         return projectile;
     }
 
