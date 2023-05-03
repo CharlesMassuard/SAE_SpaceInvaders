@@ -11,4 +11,13 @@ public class EnsembleChaines {
             chaines.add(c);
     }
 
+    public boolean contient(int x, int y){
+        for(ChainePositionnee chaine : this.chaines){
+            if(chaine.x == x && chaine.y == y){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

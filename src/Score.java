@@ -10,9 +10,13 @@ public class Score {
         return score;
     }
 
+    public int getScore(){
+        return this.score;
+    }
+
     public EnsembleChaines getEnsembleChaines(){
         EnsembleChaines score = new EnsembleChaines();
-        score.ajouteChaine(55, 5, "Le score actuel est de : "+this.score);
+        score.ajouteChaine(0, 59, "Le score actuel est de : "+this.score); //59 car hauteur fenetre = 60
         return score;
     }
 }
