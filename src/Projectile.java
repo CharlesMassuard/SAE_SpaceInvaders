@@ -9,12 +9,20 @@ public class Projectile {
 
     public EnsembleChaines getEnsembleChaines(){
         EnsembleChaines projectile = new EnsembleChaines();
-        projectile.ajouteChaine(positionX, positionY, "█");
+        projectile.ajouteChaine(positionX,positionY, "█", "0x000000");
         return projectile;
     }
 
+    public double getPositionX(){
+        return this.positionX;
+    }
+
+    public double getPositionY(){
+        return this.positionY;
+    }
+
     public void evolue(){
-        this.positionY += 0.2;
+        this.positionY += 0.5;
     }
     
 }

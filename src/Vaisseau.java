@@ -1,8 +1,8 @@
 public class Vaisseau{
 
-    private double posX;
+    private int posX;
 
-    public Vaisseau(double posX){
+    public Vaisseau(int posX){
         this.posX = posX;
     }
 
@@ -12,15 +12,16 @@ public class Vaisseau{
 
     public EnsembleChaines getEnsembleChaine(){
         EnsembleChaines vaisseau = new EnsembleChaines();
-        vaisseau.ajouteChaine(posX, 0, "█████████████");
-        vaisseau.ajouteChaine(posX, 1, "█████████████");
-        vaisseau.ajouteChaine(posX, 2, "▄███████████▄");
-        vaisseau.ajouteChaine(posX, 3, "     ███     ");
-        vaisseau.ajouteChaine(posX, 4, "      ▄      ");
+        vaisseau.ajouteChaine(posX, 0, "███████████████", "0x000000");
+        vaisseau.ajouteChaine(posX, 1, " █████████████", "0x000000");
+        vaisseau.ajouteChaine(posX, 2, " █████████████", "0x000000");
+        vaisseau.ajouteChaine(posX, 3, " ▄███████████▄", "0x000000");
+        vaisseau.ajouteChaine(posX, 4, "      ███     ", "0x000000");
+        vaisseau.ajouteChaine(posX, 5, "       ▄      ", "0x000000");
         return vaisseau;
     }
 
-    public double positionCanon(){
+    public int positionCanon(){
         return this.posX+6;
     }
 

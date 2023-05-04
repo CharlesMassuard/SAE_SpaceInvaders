@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import javafx.application.Platform;
 
 public class GestionJeu {
     
@@ -9,6 +10,7 @@ public class GestionJeu {
     private Score score;
     private Projectile projectile;
     private List<Alien> lesAliens;
+    private NbrAliensEnVie nbrAliensEnVie;
 
     public GestionJeu(){
         this.chaines = new EnsembleChaines();
@@ -17,13 +19,14 @@ public class GestionJeu {
         this.score = new Score(0);
         this.lesAliens = new ArrayList<>();
         this.projectile = null;
-        ajouterAliens(12);
-        System.out.println(chaines.contient(0, 0));
+        int nbrAliens = 12;
+        this.nbrAliensEnVie = new NbrAliensEnVie(nbrAliens);
+        ajouterAliens(nbrAliens);
     }
 
     public void ajouterAliens(int nbrAliens){
-        double posX = 2;
-        double posY = getHauteur()-10;
+        int posX = 2;
+        int posY = getHauteur()-10;
         for(int i=0; i<nbrAliens; ++i){
             lesAliens.add(new Alien(posX, posY));
             posX+=15;
@@ -59,32 +62,50 @@ public class GestionJeu {
     }
 
     public EnsembleChaines getChaines(){
-        EnsembleChaines laChaine = new EnsembleChaines();
-        laChaine.union(this.vaisseau.getEnsembleChaine());
-        // laChaine.union(this.score.getEnsembleChaines());
+        this.chaines.union(this.vaisseau.getEnsembleChaine());
+        this.chaines.union(this.score.getEnsembleChaines());
+        this.chaines.union(this.nbrAliensEnVie.getEnsembleChaines());
         if(this.projectile != null){
-            laChaine.union(this.projectile.getEnsembleChaines());
+            this.chaines.union(this.projectile.getEnsembleChaines());
         }
-        laChaine.union(this.score.getEnsembleChaines());
         for(Alien alien : this.lesAliens){
             if(alien.getNbrTours()%2==0){
-                laChaine.union(alien.getEnsembleChaine());
+                this.chaines.union(alien.getEnsembleChaine());
             } else {
-                laChaine.union(alien.getEnsembleChaine2());
+                this.chaines.union(alien.getEnsembleChaine2());
             }
         }
-        return laChaine;
+        return this.chaines;
     }
 
     public void jouerUnTour(){
-        if(this.projectile != null){
-            this.projectile.evolue();
-        }
-        score.ajoute(1);
-        for(Alien alien : this.lesAliens){
-            alien.evolue();
-            alien.ajouterTour();
+        if(nbrAliensEnVie.getEnVie() != 0){
+            ArrayList<Projectile> ballesReussies = new ArrayList<>();
+            ArrayList<Alien> aliensTouches = new ArrayList<>();
+            if(this.projectile != null){
+                this.projectile.evolue();
+            }
+            for(Alien alien : this.lesAliens){
+                if(this.projectile != null){
+                    if(alien.contient((int) this.projectile.getPositionX(), (int) this.projectile.getPositionY())){
+                        ballesReussies.add(this.projectile);
+                        aliensTouches.add(alien);
+                        score.ajoute(10);
+                        nbrAliensEnVie.enleve();
+                    }
+                }
+                alien.evolue();
+                alien.ajouterTour();  
+            }
+            if(aliensTouches.size() != 0){
+                this.lesAliens.removeAll(aliensTouches);
+            }
+            if(ballesReussies.size() != 0){
+                this.projectile = null;
+            }
+            this.chaines = new EnsembleChaines();
+        } else {
+            Platform.exit();
         }
     }
-
 }

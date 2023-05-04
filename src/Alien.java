@@ -12,21 +12,21 @@ public class Alien{
 
     public EnsembleChaines getEnsembleChaine(){
         EnsembleChaines alien = new EnsembleChaines();
-        alien.ajouteChaine(posX, posY,   " ▀▄     ▄▀ ");
-        alien.ajouteChaine(posX, posY-1, " ▄█▀███▀█▄ ");
-        alien.ajouteChaine(posX, posY-2, "█▀███████▀█");
-        alien.ajouteChaine(posX, posY-3, "█ █▀▀▀▀▀█ █");
-        alien.ajouteChaine(posX, posY-4, "   ▀▀ ▀▀   ");
+        alien.ajouteChaine(posX, posY,   " ▀▄     ▄▀ ", "0x008000");
+        alien.ajouteChaine(posX, posY-1, " ▄█▀███▀█▄ ", "0x008000");
+        alien.ajouteChaine(posX, posY-2, "█▀███████▀█", "0x008000");
+        alien.ajouteChaine(posX, posY-3, "█ █▀▀▀▀▀█ █", "0x008000");
+        alien.ajouteChaine(posX, posY-4, "   ▀▀ ▀▀   ", "0x008000");
         return alien;
     }
 
     public EnsembleChaines getEnsembleChaine2(){
         EnsembleChaines alien = new EnsembleChaines();
-        alien.ajouteChaine(posX, posY,   "  ▄▀    ▀▄ ");
-        alien.ajouteChaine(posX, posY-1, " ▄█▀███▀█▄ ");
-        alien.ajouteChaine(posX, posY-2, "█▀███████▀█");
-        alien.ajouteChaine(posX, posY-3, "█ █▀▀▀▀▀█ █");
-        alien.ajouteChaine(posX, posY-4, "   ▀▀ ▀▀   ");
+        alien.ajouteChaine( posX, posY,   "  ▄▀    ▀▄ ", "0x008000");
+        alien.ajouteChaine(posX, posY-1, " ▄█▀███▀█▄ ", "0x008000");
+        alien.ajouteChaine(posX, posY-2, "█▀███████▀█", "0x008000");
+        alien.ajouteChaine(posX, posY-3, "█ █▀▀▀▀▀█ █", "0x008000");
+        alien.ajouteChaine(posX, posY-4, "   ▀▀ ▀▀   ", "0x008000");
         return alien;
     }
 
@@ -48,6 +48,10 @@ public class Alien{
         } else {
             this.direction = "E";
         }
+    }
+
+    public boolean contient(int x, int y){
+        return getEnsembleChaine().contient(x, y);
     }
 
     public void evolue(){

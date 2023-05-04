@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,6 +22,7 @@ public class Executable extends Application {
     private Pane root;
     private Group caracteres;
     private GestionJeu gestionnaire;
+    private MenuPrincipal menu;
     private int hauteurTexte;
     private int largeurCaractere;
     public static void main(String[] args) {
@@ -34,6 +36,7 @@ public class Executable extends Application {
         {
             Text t = new Text (c.x*largeurCaractere,hauteur - c.y*hauteurTexte, c.c);
             t.setFont(Font.font ("Monospaced", 10));
+            t.setFill(Color.web(c.getCouleur()));
             caracteres.getChildren().add(t);
         }
     }
@@ -60,6 +63,7 @@ public class Executable extends Application {
             caracteres = new Group();
             root= new AnchorPane(caracteres);
             gestionnaire = new GestionJeu();
+            menu = new MenuPrincipal();
             Text t=new Text("█");
             t.setFont(Font.font("Monospaced",10));
             hauteurTexte =(int) t.getLayoutBounds().getHeight();
@@ -76,8 +80,9 @@ public class Executable extends Application {
             });
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
-            primaryStage.show();
-            lancerAnimation();
+            menu.start(primaryStage);
+            // primaryStage.show();
+            // lancerAnimation();
 
         }
 }

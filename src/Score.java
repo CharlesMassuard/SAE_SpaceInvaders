@@ -2,7 +2,7 @@ public class Score {
     private int score;
 
     public Score(int score){
-        this.score = 0;
+        this.score = score;
     }
 
     public int ajoute(int valeur){
@@ -16,7 +16,7 @@ public class Score {
 
     public EnsembleChaines getEnsembleChaines(){
         EnsembleChaines score = new EnsembleChaines();
-        score.ajouteChaine(0, 59, "Le score actuel est de : "+this.score); //59 car hauteur fenetre = 60
+        score.ajouteChaine(0, 59, "Le score actuel est de : "+this.score, "0x000000"); //59 car hauteur fenetre = 60
         return score;
     }
 }
