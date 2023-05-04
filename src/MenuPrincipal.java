@@ -1,6 +1,5 @@
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -25,17 +24,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import java.io.File;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class MenuPrincipal extends Application{
-    
-        @Override
-        public void init(){
-            // cette méthode est utilisée pour initialiser les éléments 
-            // non graphiques et événetuellement graphiques autres que la Scène et le Stage 
-        }
     
         private BorderPane borderPane(){
             BorderPane pane = new BorderPane();
@@ -50,11 +41,15 @@ public class MenuPrincipal extends Application{
         }
     
     
-        private HBox connexion(){
+        private HBox boutons(){
             HBox pane = new HBox();
             Button start = new Button("Commencer une partie");
-            pane.getChildren().addAll(start);
+            Button quitter = new Button("Quitter le jeu");
+            pane.setSpacing(200);
+            pane.getChildren().addAll(start, quitter);
             pane.setAlignment(Pos.CENTER);
+            quitter.setOnAction(new ControleurQuitter(this));
+            start.setOnAction(new ControleurCommencerPrincipal(this));
             return pane;
         }
     
@@ -74,7 +69,7 @@ public class MenuPrincipal extends Application{
             Background background = new Background(backImage);
             pane.setBackground(background);
             try{
-                File musique = new File("./fichiers_menus/musique.wav");
+                File musique = new File("./fichiers_menus/musique_volumebas.wav");
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInput);
@@ -82,13 +77,25 @@ public class MenuPrincipal extends Application{
             } catch (Exception e){
                 System.out.println(e);
             }
+            //Vue
             vbox.setStyle("-fx-background-color:transparent");
-            vbox.getChildren().addAll(borderPane(), connexion());
+            vbox.getChildren().addAll(borderPane(), boutons());
             vbox.setPrefWidth(400);
             HBox.setMargin(vbox, new Insets(30));
             pane.getChildren().add(vbox);
             return pane;
         }
+
+    public void quitter(){
+        Platform.exit();
+    }
+
+    public void commencer(){
+        MenuOptions menu = new MenuOptions();
+        Stage stage = new Stage();
+        menu.start(stage);
+
+    }
 
     @Override
     public void start(Stage stage){              

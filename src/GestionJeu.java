@@ -94,6 +94,9 @@ public class GestionJeu {
                         nbrAliensEnVie.enleve();
                     }
                 }
+                if(alien.contient(50,6)){
+                    Platform.exit(); //perdu
+                }
                 alien.evolue();
                 alien.ajouterTour();  
             }
