@@ -4,9 +4,9 @@ import javafx.event.ActionEvent;
 
 public class ControleurQuitter implements EventHandler<ActionEvent>{ 
 
-    private MenuPrincipal appli;
+    private Executable appli;
     
-    public ControleurQuitter(MenuPrincipal appli){
+    public ControleurQuitter(Executable appli){
         this.appli = appli;
     }
 

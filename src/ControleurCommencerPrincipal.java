@@ -6,9 +6,9 @@ import javafx.stage.Stage;
 
 public class ControleurCommencerPrincipal implements EventHandler<ActionEvent>{ 
 
-    private MenuPrincipal appli;
+    private Executable appli;
     
-    public ControleurCommencerPrincipal(MenuPrincipal appli){
+    public ControleurCommencerPrincipal(Executable appli){
         this.appli = appli;
     }
 

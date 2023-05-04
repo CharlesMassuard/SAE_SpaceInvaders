@@ -29,29 +29,51 @@ import javax.sound.sampled.Clip;
 
 public class MenuOptions extends Application{
 
-    private TextField nbrAliens;
+    protected TextField nbrAliens;
+    protected TextField nbrVagues;
 
     @Override
     public void init(){
         // cette méthode est utilisée pour initialiser les éléments 
         // non graphiques et événetuellement graphiques autres que la Scène et le Stage
         this.nbrAliens = new TextField();
+        this.nbrVagues = new TextField();
     }
 
     private GridPane gridPane(){
         GridPane pane = new GridPane();
-        pane.add(new Label("Combien d'aliens souhaitez-vous combattre ?"), 0, 0, 5, 1);
-        pane.add(nbrAliens, 1, 0);
+        Text question1 = new Text("Combien d'aliens souhaitez-vous combattre ?");
+        question1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        question1.setFill(Color.WHITE); //couleur texte
+        question1.setStrokeWidth(0.2); //Taille bordure
+        question1.setStroke(Color.BLACK); //couleur bordure
+        pane.add(question1, 0, 0, 5, 1);
+        try{
+            pane.add(nbrAliens, 8, 0);
+        } catch (Exception e){
+            System.out.println(e);
+            System.out.println("NOP");
+        }
+        Button commencer = new Button("Commencer la partie");
+        commencer.setOnAction(new ControleurDebut(this));
+        pane.add(commencer, 1, 1, 4, 1);
         pane.setHgap(50);
         pane.setVgap(20);  
         return pane;
+    }
+
+    public void debut(){
+        LancementJeu executable = new LancementJeu();
+        Stage stage = new Stage();
+        Executable.getClip().stop();
+        executable.start(stage);
     }
 
     private HBox root(){
         HBox pane = new HBox(10);
         VBox vbox = new VBox(50);
         //Mise en place de l'arrière plan
-        Image image = new Image("file:./fichiers_menus/back.jpg");
+        Image image = new Image("file:./fichiers_menus/loop-hyper-loop.gif");
         BackgroundImage backImage = new BackgroundImage(
             image,
             BackgroundRepeat.NO_REPEAT,
@@ -59,18 +81,8 @@ public class MenuOptions extends Application{
             BackgroundPosition.CENTER,
             new BackgroundSize(100, 100, true, true, true, true)
         );
-        //musique
         Background background = new Background(backImage);
         pane.setBackground(background);
-        try{
-            File musique = new File("./fichiers_menus/musique_volumebas.wav");
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInput);
-            clip.start();
-        } catch (Exception e){
-            System.out.println(e);
-        }
         vbox.getChildren().addAll(gridPane());
         vbox.setPrefWidth(400);
         HBox.setMargin(vbox, new Insets(30));
