@@ -31,7 +31,7 @@ public class ChainePositionnee{
     }
 
     /**Renvoie la ChainePositionnee sous la forme d'un String
-     * >>> (positionX,positionY)
+     * positionX,positionY)
      * @return le String de la ChainePositionnee
      */
     @Override

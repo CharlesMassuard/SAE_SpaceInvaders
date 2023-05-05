@@ -17,7 +17,7 @@ public class ControleurDebutEntree implements EventHandler<KeyEvent>{
     }
     
     /**Permet de lancer l'action
-     * @param event l'event lancé
+     * @param e l'event lancé
      * Si la touche appuyée est bien égale à la touche "ENTER",
      * Lancement de la méthode commencer() de la classe Executable
      * Si cette méthode renvoie true, la fenêtre de l'Executable est fermée
