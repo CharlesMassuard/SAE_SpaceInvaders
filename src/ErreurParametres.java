@@ -34,9 +34,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-//MENU PRINCIPAL RECREE, MAINTENANT L'EXECUTABLE
+/**Pop-up erreur dans les paramètres de la partie  */
 public class ErreurParametres extends Application{
 
+        /**Créer la borderPane contenant les textes de la fenetre
+         * @return la borderPane
+         */
         private BorderPane borderPane(){
             BorderPane pane = new BorderPane();
             Text titre = new Text("Erreur");
@@ -49,7 +52,9 @@ public class ErreurParametres extends Application{
             return pane;
         }
     
-    
+        /**Créer une HBox contenant des boutons
+         * @return la HBox
+         */
         private HBox boutons(){
             HBox pane = new HBox();
             Button ok = new Button("J'ai compris");
@@ -59,6 +64,10 @@ public class ErreurParametres extends Application{
             return pane;
         }
     
+        /**Créer la HBox principale
+         * Contient la borderPane() et boutons()
+         * @return la HBox
+         */
         private HBox root(){
             HBox pane = new HBox(10);
             VBox vbox = new VBox(50);
@@ -69,6 +78,7 @@ public class ErreurParametres extends Application{
             return pane;
         }
 
+    /**Méthode pour lancer et configurer la fenetre */
     @Override
     public void start(Stage stage){              
         Scene scene =new Scene(root());

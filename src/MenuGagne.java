@@ -73,7 +73,7 @@ public class MenuGagne extends Application{
         pane.getChildren().addAll(start, reconfig, quitter);
         pane.setAlignment(Pos.CENTER);
         start.setOnAction(new ControleurRelancer(this));
-        reconfig.setOnAction(new ControleurReconfigurer(this));
+        reconfig.setOnAction(new ControleurRetourMenu(this));
         quitter.setOnAction(new ControleurQuitter(menuP));
         return pane;
     }

@@ -55,7 +55,7 @@ public class MenuPerdu extends Application{
         pane.getChildren().addAll(start, reconfig, quitter);
         pane.setAlignment(Pos.CENTER);
         start.setOnAction(new ControleurRelancer(menuG));
-        reconfig.setOnAction(new ControleurReconfigurer(menuG));
+        reconfig.setOnAction(new ControleurRetourMenu(menuG));
         quitter.setOnAction(new ControleurQuitter(menuP));
         return pane;
     }

@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Background;
@@ -13,14 +12,11 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.control.Label;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Slider;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -28,23 +24,27 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import java.io.File;
 import javax.sound.sampled.Clip;
-import javafx.scene.Group;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.AnchorPane;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.input.*;
 
 //MENU PRINCIPAL RECREE, MAINTENANT L'EXECUTABLE
+//**Menu Princial du jeu*/
 public class Executable extends Application{
 
         private static Clip clip;
         private static TextField nbrAliens;
         private static TextField nbrVagues;
 
+        /**Permet de renvoyer la musique utilisée
+         * @return la musique utilisée
+         */
         public static Clip getClip(){
             return clip;
-        }
+        } 
 
+        /**Initialisation de la classe
+         * Initialise les 2 TextFields présents sur la fenetre
+         * Le TextField 'nbrAliens' à comme valeur par défaut '12'
+         * Le TextFiel 'nbrVagues' à comme valeur par défaut '5'
+        */
         @Override
         public void init(){
         // cette méthode est utilisée pour initialiser les éléments 
@@ -94,7 +94,7 @@ public class Executable extends Application{
             nbrVagues.setOnKeyReleased(new ControleurDebutEntree(this));
             pane.add(texte, 0, 0, 100, 1);
             pane.add(nbrAliens, 50, 0, 1, 10);
-            pane.add(texteVagues, 0, 10, 2, 1);
+            pane.add(texteVagues, 0, 10, 5, 1);
             pane.add(nbrVagues, 50, 10, 2, 1);
             return pane;
         }

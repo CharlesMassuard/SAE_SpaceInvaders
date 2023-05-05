@@ -51,7 +51,7 @@ public class MenuPause extends Application{
         pane.getChildren().addAll(texte, reprendre, reconfig, quitter);
         pane.setAlignment(Pos.CENTER);
         reprendre.setOnAction(new ControleurReprendre(this));
-        reconfig.setOnAction(new ControleurReconfigurer(menuG));
+        reconfig.setOnAction(new ControleurRetourMenu(menuG));
         quitter.setOnAction(new ControleurQuitter(menuP));
         return pane;
     }
