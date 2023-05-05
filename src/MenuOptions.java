@@ -17,6 +17,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,15 +30,10 @@ import javax.sound.sampled.Clip;
 
 public class MenuOptions extends Application{
 
-    protected TextField nbrAliens;
-    protected TextField nbrVagues;
-
     @Override
     public void init(){
         // cette méthode est utilisée pour initialiser les éléments 
         // non graphiques et événetuellement graphiques autres que la Scène et le Stage
-        this.nbrAliens = new TextField();
-        this.nbrVagues = new TextField();
     }
 
     private GridPane gridPane(){
@@ -48,12 +44,6 @@ public class MenuOptions extends Application{
         question1.setStrokeWidth(0.2); //Taille bordure
         question1.setStroke(Color.BLACK); //couleur bordure
         pane.add(question1, 0, 0, 5, 1);
-        try{
-            pane.add(nbrAliens, 8, 0);
-        } catch (Exception e){
-            System.out.println(e);
-            System.out.println("NOP");
-        }
         Button commencer = new Button("Commencer la partie");
         commencer.setOnAction(new ControleurDebut(this));
         pane.add(commencer, 1, 1, 4, 1);

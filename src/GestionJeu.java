@@ -121,7 +121,7 @@ public class GestionJeu {
                         nbrAliensEnVie.enleve();
                     }
                 }
-                if(alien.getPosY()<10){ //perdu
+                if(alien.getPosY()<10 || this.score.getScore()<-1000){ //perdu
                     System.out.println("Perdu");
                 }
                 alien.evolue();
@@ -135,6 +135,15 @@ public class GestionJeu {
             }
             this.chaines = new EnsembleChaines();
         } else {
+            try{
+                File musique = new File("./fichiers_menus/victoire.wav");
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+            } catch (Exception e){
+                System.out.println(e);
+            }
             MenuGagne partieGagne = new MenuGagne();
             Stage stage = new Stage();
             partieGagne.start(stage);

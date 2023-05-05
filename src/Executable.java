@@ -4,12 +4,14 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import javafx.scene.text.FontWeight;
@@ -17,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Slider;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,11 +31,15 @@ import javax.sound.sampled.Clip;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 //MENU PRINCIPAL RECREE, MAINTENANT L'EXECUTABLE
 public class Executable extends Application{
 
         private static Clip clip;
+        private static TextField nbrAliens;
+        private static TextField nbrVagues;
 
         public static Clip getClip(){
             return clip;
@@ -52,6 +59,8 @@ public class Executable extends Application{
             } catch (Exception e){
                 System.out.println(e);
             }
+            this.nbrAliens = new TextField();
+            this.nbrVagues = new TextField();
         }
 
         private BorderPane borderPane(){
@@ -78,6 +87,25 @@ public class Executable extends Application{
             start.setOnAction(new ControleurCommencerPrincipal(this));
             return pane;
         }
+
+        private GridPane parametres(){
+            GridPane pane = new GridPane();
+            Text texte = new Text("Choisissez entre 6 à 24 aliens à combatttre : ");
+            texte.setFont(Font.font("Dyuthi", FontWeight.NORMAL, 20));
+            texte.setFill(Color.WHITE); //couleur texte
+            texte.setStrokeWidth(0.4); //Taille bordure
+            texte.setStroke(Color.BLACK); //couleur bordure
+            Text texteVagues = new Text("Choisissez entre 1 à 10 vagues d'aliens à affronter : ");
+            texteVagues.setFont(Font.font("Dyuthi", FontWeight.NORMAL, 20));
+            texteVagues.setFill(Color.WHITE); //couleur texte
+            texteVagues.setStrokeWidth(0.4); //Taille bordure
+            texteVagues.setStroke(Color.BLACK); //couleur bordure
+            pane.add(texte, 0, 0, 100, 1);
+            pane.add(nbrAliens, 50, 0, 1, 10);
+            pane.add(texteVagues, 0, 10, 2, 1);
+            pane.add(nbrVagues, 50, 10, 2, 1);
+            return pane;
+        }
     
         private HBox root(){
             HBox pane = new HBox(10);
@@ -95,7 +123,7 @@ public class Executable extends Application{
             pane.setBackground(background);
             //Vue
             vbox.setStyle("-fx-background-color:transparent");
-            vbox.getChildren().addAll(borderPane(), boutons());
+            vbox.getChildren().addAll(borderPane(), parametres(), boutons());
             vbox.setPrefWidth(400);
             HBox.setMargin(vbox, new Insets(30));
             pane.getChildren().add(vbox);
@@ -106,10 +134,27 @@ public class Executable extends Application{
         Platform.exit();
     }
 
-    public void commencer(){
-        MenuOptions menu = new MenuOptions();
-        Stage stage = new Stage();
-        menu.start(stage);
+    public boolean commencer(){
+        try{
+        String nbrAliensRentre = nbrAliens.getText();
+        Integer nbrAliensRentreInteger = Integer.parseInt(nbrAliensRentre);
+            if(nbrAliensRentreInteger>=6 && nbrAliensRentreInteger<=24){
+                clip.stop();
+                LancementJeu menu = new LancementJeu();
+                Stage stage = new Stage();
+                menu.start(stage);
+                return true;
+            } else {
+                ErreurParametres menu = new ErreurParametres();
+                Stage stage = new Stage();
+                menu.start(stage);
+            }
+        } catch (Exception e){
+            ErreurParametres menu = new ErreurParametres();
+            Stage stage = new Stage();
+            menu.start(stage);
+        }
+        return false;
     }
 
     @Override

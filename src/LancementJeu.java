@@ -35,6 +35,7 @@ public class LancementJeu extends Application {
     private int largeurCaractere;
     private static Clip clip;
     private static Timeline timeline;
+    private static Stage stage;
     public static void main(String[] args) {
         launch(args);
     }
@@ -70,6 +71,10 @@ public class LancementJeu extends Application {
         timeline.stop();
     }
 
+    public static void fermerFenetre(){
+        stage.close();
+    }
+
     private void lancerMusique(){
         try{
             File musique = new File("./fichiers_menus/musique_volumebas.wav");
@@ -90,6 +95,7 @@ public class LancementJeu extends Application {
 
     @Override
         public void start(Stage primaryStage){
+            stage = primaryStage;
             primaryStage.setTitle("IUTO Space Invader");
             caracteres = new Group();
             root= new AnchorPane(caracteres);

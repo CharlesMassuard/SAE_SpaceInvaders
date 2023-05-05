@@ -10,6 +10,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import javafx.scene.text.FontWeight;
@@ -47,9 +48,9 @@ public class MenuGagne extends Application{
         Executable menuP = new Executable();
         HBox pane = new HBox();
         Button start = new Button("Relancer une partie");
-        Button reconfig = new Button("Reconfigurer une nouvelle partie");
+        Button reconfig = new Button("Retour au menu principal");
         Button quitter = new Button("Quitter le jeu");
-        pane.setSpacing(200);
+        pane.setSpacing(100);
         pane.getChildren().addAll(start, reconfig, quitter);
         pane.setAlignment(Pos.CENTER);
         start.setOnAction(new ControleurRelancer(this));
@@ -85,15 +86,17 @@ public class MenuGagne extends Application{
         LancementJeu.stopMusique();
         LancementJeu executable = new LancementJeu();
         Stage stage = new Stage();
-        Executable.getClip().stop();
+        LancementJeu.fermerFenetre();
         executable.start(stage);
     }
 
     public void reconfig(){
-        MenuOptions menu = new MenuOptions();
+        LancementJeu.stopMusique();
+        Executable menu = new Executable();
         Stage stage = new Stage();
-        Executable.getClip().stop();
+        LancementJeu.fermerFenetre();
         menu.start(stage);
+        menu.init(); //lancer la musique du menu principal
     }
 
     @Override

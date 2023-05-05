@@ -14,9 +14,10 @@ public class ControleurCommencerPrincipal implements EventHandler<ActionEvent>{
 
     @Override
     public void handle(ActionEvent event) {
-        this.appli.commencer();
-        Node n = (Node) event.getSource();
-        Stage stage = (Stage) n.getScene().getWindow();
-        stage.close();
+        if(this.appli.commencer()){
+            Node n = (Node) event.getSource();
+            Stage stage = (Stage) n.getScene().getWindow();
+            stage.close();
+        }
     }
 }
