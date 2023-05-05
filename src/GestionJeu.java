@@ -6,6 +6,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javafx.stage.Stage;
+import java.lang.Thread;
 
 public class GestionJeu {
     
@@ -16,6 +17,9 @@ public class GestionJeu {
     private Projectile projectile;
     private List<Alien> lesAliens;
     private NbrAliensEnVie nbrAliensEnVie;
+    private int nbrAliens;
+    private int nbrVagues;
+    private int nbrVaguesPasses;
 
     public GestionJeu(){
         this.chaines = new EnsembleChaines();
@@ -24,7 +28,9 @@ public class GestionJeu {
         this.score = new Score(0);
         this.lesAliens = new ArrayList<>();
         this.projectile = null;
-        int nbrAliens = 12;
+        this.nbrAliens = LancementJeu.getNbrAliens();
+        this.nbrVagues = LancementJeu.getNbrVagues();
+        this.nbrVaguesPasses = 1;
         this.nbrAliensEnVie = new NbrAliensEnVie(nbrAliens);
         ajouterAliens(nbrAliens);
     }
@@ -75,10 +81,30 @@ public class GestionJeu {
         }
     }
 
+    public void pauseMenu(){
+        LancementJeu.stopAnimation();
+        LancementJeu.stopMusique();
+        MenuPause pauseMenu = new MenuPause();
+        Stage stage = new Stage();
+        pauseMenu.start(stage);
+    }
+
+    public static void reprendre(){
+        LancementJeu.lancerMusique();
+        LancementJeu.lancerAnimation();
+    }
+
+    public EnsembleChaines nbrVagues(){
+        EnsembleChaines vagues = new EnsembleChaines();
+        vagues.ajouteChaine(45, 59, "Vague "+nbrVaguesPasses+"/"+nbrVagues, "0xFFFFFF");
+        return vagues;
+    }
+
     public EnsembleChaines getChaines(){
         this.chaines.union(this.vaisseau.getEnsembleChaine());
         this.chaines.union(this.score.getEnsembleChaines());
         this.chaines.union(this.nbrAliensEnVie.getEnsembleChaines());
+        this.chaines.union(nbrVagues());
         if(this.projectile != null){
             this.chaines.union(this.projectile.getEnsembleChaines());
         }
@@ -121,8 +147,12 @@ public class GestionJeu {
                         nbrAliensEnVie.enleve();
                     }
                 }
-                if(alien.getPosY()<10 || this.score.getScore()<-1000){ //perdu
-                    System.out.println("Perdu");
+                if(alien.getPosY()<10 || this.score.getScore()<-100){ //perdu
+                    MenuPerdu partieGagne = new MenuPerdu();
+                    Stage stage = new Stage();
+                    partieGagne.start(stage);
+                    LancementJeu.stopAnimation();
+                    break;
                 }
                 alien.evolue();
                 alien.ajouterTour();  
@@ -135,19 +165,38 @@ public class GestionJeu {
             }
             this.chaines = new EnsembleChaines();
         } else {
-            try{
-                File musique = new File("./fichiers_menus/victoire.wav");
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInput);
-                clip.start();
-            } catch (Exception e){
-                System.out.println(e);
+            if(nbrVaguesPasses >= nbrVagues){
+                try{
+                    File musique = new File("./fichiers_menus/victoire.wav");
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                    clip.start();
+                } catch (Exception e){
+                    System.out.println(e);
+                }
+                MenuGagne partieGagne = new MenuGagne(this.score.getScore());
+                Stage stage = new Stage();
+                partieGagne.start(stage);
+                LancementJeu.stopAnimation();
+            } else {
+                try{
+                    File musique = new File("./fichiers_menus/ding_fin_vagues.wav");
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                    clip.start();
+                } catch (Exception e){
+                    System.out.println(e);
+                }
+                score.ajoute(300);
+                nbrVaguesPasses ++;
+                if(nbrAliens+3 < 24){
+                    nbrAliens += 3;
+                }
+                this.nbrAliensEnVie = new NbrAliensEnVie(nbrAliens);
+                ajouterAliens(nbrAliens);
             }
-            MenuGagne partieGagne = new MenuGagne();
-            Stage stage = new Stage();
-            partieGagne.start(stage);
-            LancementJeu.stopAnimation();
         }
     }
 }

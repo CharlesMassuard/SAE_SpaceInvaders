@@ -27,20 +27,34 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 
 public class LancementJeu extends Application {
-    private Pane root;
-    private Group caracteres;
-    private GestionJeu gestionnaire;
+    private static Pane root;
+    private static Group caracteres;
+    private static GestionJeu gestionnaire;
     private Executable menu;
-    private int hauteurTexte;
-    private int largeurCaractere;
+    private static int hauteurTexte;
+    private static int largeurCaractere;
     private static Clip clip;
     private static Timeline timeline;
     private static Stage stage;
+    private static Integer nbrAliens;
+    private static Integer nbrVagues;
+
+    public LancementJeu(Integer nbrAliens, Integer nbrVagues){
+        this.nbrAliens = nbrAliens;
+        this.nbrVagues = nbrVagues;
+    }
+    public static int getNbrAliens(){
+        return (int) nbrAliens;
+    }
+
+    public static int getNbrVagues(){
+        return (int) nbrVagues;
+    }
     public static void main(String[] args) {
         launch(args);
     }
 
-    private void afficherCaracteres(){
+    private static void afficherCaracteres(){
         caracteres.getChildren().clear();
         int hauteur = (int) root.getHeight();
         for( ChainePositionnee c : gestionnaire.getChaines().chaines)
@@ -52,7 +66,7 @@ public class LancementJeu extends Application {
         }
     }
 
-    private void lancerAnimation() {
+    public static void lancerAnimation() {
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
                     new EventHandler<ActionEvent>() {
@@ -75,13 +89,13 @@ public class LancementJeu extends Application {
         stage.close();
     }
 
-    private void lancerMusique(){
+    public static void lancerMusique(){
         try{
             File musique = new File("./fichiers_menus/musique_volumebas.wav");
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
             clip = AudioSystem.getClip();
             clip.open(audioInput);
-            clip.loop(200);
+            clip.loop(999);
             clip.start();
         } catch (Exception e){
             System.out.println(e);
@@ -114,6 +128,8 @@ public class LancementJeu extends Application {
                     gestionnaire.toucheDroite();
                 if(key.getCode()==KeyCode.SPACE)
                     gestionnaire.toucheEspace();
+                if(key.getCode()==KeyCode.ESCAPE)
+                    gestionnaire.pauseMenu();
             });
             Image image = new Image("file:./fichiers_menus/espace.jpg");
             BackgroundImage backImage = new BackgroundImage(

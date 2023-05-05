@@ -4,17 +4,17 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 
 
-public class ControleurDebut implements EventHandler<ActionEvent>{ 
+public class ControleurReprendre implements EventHandler<ActionEvent>{ 
 
-    private MenuOptions appli;
+    private MenuPause appli;
     
-    public ControleurDebut(MenuOptions appli){
+    public ControleurReprendre(MenuPause appli){
         this.appli = appli;
     }
 
     @Override
     public void handle(ActionEvent event) {
-        this.appli.debut();
+        this.appli.reprendre();
         Node n = (Node) event.getSource();
         Stage stage = (Stage) n.getScene().getWindow();
         stage.close();

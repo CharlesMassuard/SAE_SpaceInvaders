@@ -42,7 +42,7 @@ public class ErreurParametres extends Application{
             Text titre = new Text("Erreur");
             titre.setFont(Font.font("Arial", FontWeight.NORMAL, 17));
             pane.setTop(titre);
-            Text texte = new Text("\nLes paramètres que vous avez rentrés ne sont pas valides.\n\n- Les paramètres rentrés doivent être composés uniquement de chiffres, sans virgules\n- Le nombre d'aliens doit être compris entre 6 et 24\n- Le nombre de vagues doit être compris entre 1 et 10.");
+            Text texte = new Text("\nLes paramètres que vous avez rentrés ne sont pas valides.\n\n- Les paramètres rentrés doivent être composés uniquement de chiffres, sans virgules\n- Le nombre d'aliens doit être compris entre 6 et 24\n- Le nombre de vagues doit être d'au moins 1.");
             pane.setAlignment(titre, Pos.CENTER);
             pane.setCenter(texte);
             pane.setAlignment(texte, Pos.CENTER);

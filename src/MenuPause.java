@@ -17,7 +17,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,47 +25,46 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import java.io.File;
+import java.security.spec.ECFieldF2m;
+
 import javax.sound.sampled.Clip;
+import javafx.scene.Group;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 
-public class MenuOptions extends Application{
+public class MenuPause extends Application{
 
-    @Override
-    public void init(){
-        // cette méthode est utilisée pour initialiser les éléments 
-        // non graphiques et événetuellement graphiques autres que la Scène et le Stage
-    }
 
-    private GridPane gridPane(){
-        GridPane pane = new GridPane();
-        Text question1 = new Text("Combien d'aliens souhaitez-vous combattre ?");
-        question1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
-        question1.setFill(Color.WHITE); //couleur texte
-        question1.setStrokeWidth(0.2); //Taille bordure
-        question1.setStroke(Color.BLACK); //couleur bordure
-        pane.add(question1, 0, 0, 5, 1);
-        Button commencer = new Button("Commencer la partie");
-        commencer.setOnAction(new ControleurDebut(this));
-        pane.add(commencer, 1, 1, 4, 1);
-        pane.setHgap(50);
-        pane.setVgap(20);  
+    private VBox vbox(){
+        Executable menuP = new Executable();
+        MenuGagne menuG = new MenuGagne(0);
+        VBox pane = new VBox();
+        Text texte = new Text("JEU EN PAUSE");
+        texte.setFont(Font.font("Dyuthi", 30));
+        texte.setFill(Color.WHITE);
+        texte.setStrokeWidth(0.4); //Taille bordure
+        texte.setStroke(Color.BLACK); //couleur bordure
+        Button reprendre = new Button("Reprendre la partie");
+        Button reconfig = new Button("Retour au menu principal");
+        Button quitter = new Button("Quitter le jeu");
+        pane.setSpacing(30);
+        pane.getChildren().addAll(texte, reprendre, reconfig, quitter);
+        pane.setAlignment(Pos.CENTER);
+        reprendre.setOnAction(new ControleurReprendre(this));
+        reconfig.setOnAction(new ControleurReconfigurer(menuG));
+        quitter.setOnAction(new ControleurQuitter(menuP));
         return pane;
-    }
-
-    public void debut(){
-        try{
-            LancementJeu.stopMusique();
-        } catch (Exception e){}
-        LancementJeu executable = new LancementJeu();
-        Stage stage = new Stage();
-        Executable.getClip().stop();
-        executable.start(stage);
     }
 
     private HBox root(){
         HBox pane = new HBox(10);
         VBox vbox = new VBox(50);
+        vbox.getChildren().addAll(vbox());
+        vbox.setPrefWidth(400);
+        HBox.setMargin(vbox, new Insets(30));
+        pane.getChildren().add(vbox);
         //Mise en place de l'arrière plan
-        Image image = new Image("file:./fichiers_menus/loop-hyper-loop.gif");
+        Image image = new Image("file:./fichiers_menus/espace.gif");
         BackgroundImage backImage = new BackgroundImage(
             image,
             BackgroundRepeat.NO_REPEAT,
@@ -76,18 +74,19 @@ public class MenuOptions extends Application{
         );
         Background background = new Background(backImage);
         pane.setBackground(background);
-        vbox.getChildren().addAll(gridPane());
-        vbox.setPrefWidth(400);
-        HBox.setMargin(vbox, new Insets(30));
-        pane.getChildren().add(vbox);
         return pane;
     }
 
+    public void reprendre(){
+        GestionJeu.reprendre();
+    }
+
     @Override
-    public void start(Stage stage){     
+    public void start(Stage stage){              
         Scene scene =new Scene(root());
-        stage.setTitle("Space Invaders - Choix des options");
+        stage.setTitle("Space Invaders - Pause");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

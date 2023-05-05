@@ -33,13 +33,32 @@ import javafx.scene.layout.AnchorPane;
 //MENU PRINCIPAL RECREE, MAINTENANT L'EXECUTABLE
 public class MenuGagne extends Application{
 
+    private int score;
+
+    public MenuGagne(int score){
+        this.score = score;
+    }
+
     private BorderPane borderPane(){
         BorderPane pane = new BorderPane();
         Text titre = new Text("VOUS AVEZ GAGNÉ !");
         titre.setFont(Font.font("Dyuthi", FontWeight.BOLD, 80));
         titre.setFill(Color.WHITE); //couleur texte
         pane.setTop(titre);
+        titre.setStrokeWidth(5); //Taille bordure
+        titre.setStroke(Color.BLACK); //couleur bordure
         pane.setAlignment(titre, Pos.CENTER);
+        Text scoreAffiche;
+        if(score == 1 || score == -1){
+            scoreAffiche = new Text("Vous avez obtenu un score de "+this.score+" point !");
+        } else {
+            scoreAffiche = new Text("Vous avez obtenu un score de "+this.score+" points !");
+        }
+        scoreAffiche.setFont(Font.font("Dyuthi", FontWeight.NORMAL, 30));
+        scoreAffiche.setFill(Color.WHITE); //couleur texte
+        scoreAffiche.setStrokeWidth(1); //Taille bordure
+        scoreAffiche.setStroke(Color.BLACK); //couleur bordure
+        pane.setCenter(scoreAffiche);
         return pane;
     }
 
@@ -84,10 +103,10 @@ public class MenuGagne extends Application{
 
     public void recommencer(){
         LancementJeu.stopMusique();
-        LancementJeu executable = new LancementJeu();
+        LancementJeu jeu = new LancementJeu(LancementJeu.getNbrAliens(), LancementJeu.getNbrVagues());
         Stage stage = new Stage();
         LancementJeu.fermerFenetre();
-        executable.start(stage);
+        jeu.start(stage);
     }
 
     public void reconfig(){
@@ -96,7 +115,6 @@ public class MenuGagne extends Application{
         Stage stage = new Stage();
         LancementJeu.fermerFenetre();
         menu.start(stage);
-        menu.init(); //lancer la musique du menu principal
     }
 
     @Override
@@ -104,6 +122,7 @@ public class MenuGagne extends Application{
         Scene scene =new Scene(root());
         stage.setTitle("Space Invaders - Gagné");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

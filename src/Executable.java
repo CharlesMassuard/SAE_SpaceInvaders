@@ -31,8 +31,8 @@ import javax.sound.sampled.Clip;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.input.*;
 
 //MENU PRINCIPAL RECREE, MAINTENANT L'EXECUTABLE
 public class Executable extends Application{
@@ -49,18 +49,8 @@ public class Executable extends Application{
         public void init(){
         // cette méthode est utilisée pour initialiser les éléments 
         // non graphiques et événetuellement graphiques autres que la Scène et le Stage
-            try{
-                File musique = new File("./fichiers_menus/musique_volumebas.wav");
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
-                clip = AudioSystem.getClip();
-                clip.open(audioInput);
-                clip.loop(200);
-                clip.start();
-            } catch (Exception e){
-                System.out.println(e);
-            }
-            this.nbrAliens = new TextField();
-            this.nbrVagues = new TextField();
+            this.nbrAliens = new TextField("12");
+            this.nbrVagues = new TextField("5");
         }
 
         private BorderPane borderPane(){
@@ -95,11 +85,13 @@ public class Executable extends Application{
             texte.setFill(Color.WHITE); //couleur texte
             texte.setStrokeWidth(0.4); //Taille bordure
             texte.setStroke(Color.BLACK); //couleur bordure
-            Text texteVagues = new Text("Choisissez entre 1 à 10 vagues d'aliens à affronter : ");
+            Text texteVagues = new Text("Choisissez le nombre de vagues d'aliens à affronter : ");
             texteVagues.setFont(Font.font("Dyuthi", FontWeight.NORMAL, 20));
             texteVagues.setFill(Color.WHITE); //couleur texte
             texteVagues.setStrokeWidth(0.4); //Taille bordure
             texteVagues.setStroke(Color.BLACK); //couleur bordure
+            nbrAliens.setOnKeyReleased(new ControleurDebutEntree(this));
+            nbrVagues.setOnKeyReleased(new ControleurDebutEntree(this));
             pane.add(texte, 0, 0, 100, 1);
             pane.add(nbrAliens, 50, 0, 1, 10);
             pane.add(texteVagues, 0, 10, 2, 1);
@@ -111,7 +103,7 @@ public class Executable extends Application{
             HBox pane = new HBox(10);
             VBox vbox = new VBox(50);
             //Mise en place de l'arrière plan
-            Image image = new Image("file:./fichiers_menus/loop-hyper-loop.gif");
+            Image image = new Image("file:./fichiers_menus/espace.gif");
             BackgroundImage backImage = new BackgroundImage(
                 image,
                 BackgroundRepeat.NO_REPEAT,
@@ -137,10 +129,12 @@ public class Executable extends Application{
     public boolean commencer(){
         try{
         String nbrAliensRentre = nbrAliens.getText();
+        String nbrVaguesRentre = nbrVagues.getText();
         Integer nbrAliensRentreInteger = Integer.parseInt(nbrAliensRentre);
-            if(nbrAliensRentreInteger>=6 && nbrAliensRentreInteger<=24){
+        Integer nbrVaguesInteger = Integer.parseInt(nbrVaguesRentre);
+            if(nbrAliensRentreInteger>=6 && nbrAliensRentreInteger<=24 && nbrVaguesInteger>=1){
                 clip.stop();
-                LancementJeu menu = new LancementJeu();
+                LancementJeu menu = new LancementJeu(nbrAliensRentreInteger, nbrVaguesInteger);
                 Stage stage = new Stage();
                 menu.start(stage);
                 return true;
@@ -162,6 +156,17 @@ public class Executable extends Application{
         Scene scene =new Scene(root());
         stage.setTitle("Space Invaders - Menu Principal");
         stage.setScene(scene);
+        stage.setResizable(false);
+        try{
+            File musique = new File("./fichiers_menus/musique_volumebas.wav");
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
+            clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.loop(200);
+            clip.start();
+        } catch (Exception e){
+            System.out.println(e);
+        }
         stage.show();
     }
 }
