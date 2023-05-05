@@ -16,7 +16,7 @@ public class NbrAliensEnVie {
 
     public EnsembleChaines getEnsembleChaines(){
         EnsembleChaines aliens = new EnsembleChaines();
-        aliens.ajouteChaine(65, 59, "Nombre d'aliens encore en vie : "+this.aliens, "0x000000"); //59 car hauteur fenetre = 60
+        aliens.ajouteChaine(65, 59, "Nombre d'aliens encore en vie : "+this.aliens, "0xFFFFFF"); //59 car hauteur fenetre = 60
         return aliens;
     }
 }

@@ -12,12 +12,12 @@ public class Vaisseau{
 
     public EnsembleChaines getEnsembleChaine(){
         EnsembleChaines vaisseau = new EnsembleChaines();
-        vaisseau.ajouteChaine(posX, 0, "███████████████", "0x000000");
-        vaisseau.ajouteChaine(posX, 1, " █████████████", "0x000000");
-        vaisseau.ajouteChaine(posX, 2, " █████████████", "0x000000");
-        vaisseau.ajouteChaine(posX, 3, " ▄███████████▄", "0x000000");
-        vaisseau.ajouteChaine(posX, 4, "      ███     ", "0x000000");
-        vaisseau.ajouteChaine(posX, 5, "       ▄      ", "0x000000");
+        vaisseau.ajouteChaine(posX, 0, "███████████████", "0x9C9C9C");
+        vaisseau.ajouteChaine(posX, 1, " █████████████", "0x9C9C9C");
+        vaisseau.ajouteChaine(posX, 2, " █████████████", "0x9C9C9C");
+        vaisseau.ajouteChaine(posX, 3, " ▄███████████▄", "0x9C9C9C");
+        vaisseau.ajouteChaine(posX, 4, "      ███     ", "0x9C9C9C");
+        vaisseau.ajouteChaine(posX, 5, "       ▄      ", "0x9C9C9C");
         return vaisseau;
     }
 

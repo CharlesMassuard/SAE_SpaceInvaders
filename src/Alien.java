@@ -34,6 +34,10 @@ public class Alien{
         return this.posX;
     }
 
+    public double getPosY(){
+        return this.posY;
+    }
+
     public void ajouterTour(){
         this.nbrTours += 1;
     }
@@ -58,6 +62,7 @@ public class Alien{
         if(getNbrTours() == 100){
             this.posY -= 1;
             this.nbrTours = 0;
+            Score.enleve(1);
             changerDirection();
         } else if(this.direction.equals("E")){
             this.posX += 0.1;

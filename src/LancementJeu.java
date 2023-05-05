@@ -19,6 +19,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import javax.sound.sampled.Clip;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
 
 public class LancementJeu extends Application {
     private Pane root;
@@ -27,6 +33,8 @@ public class LancementJeu extends Application {
     private Executable menu;
     private int hauteurTexte;
     private int largeurCaractere;
+    private static Clip clip;
+    private static Timeline timeline;
     public static void main(String[] args) {
         launch(args);
     }
@@ -44,7 +52,7 @@ public class LancementJeu extends Application {
     }
 
     private void lancerAnimation() {
-        Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
                     new EventHandler<ActionEvent>() {
                         @Override public void handle(ActionEvent actionEvent) {
@@ -58,21 +66,30 @@ public class LancementJeu extends Application {
         timeline.play();
     }
 
+    public static void stopAnimation(){
+        timeline.stop();
+    }
+
     private void lancerMusique(){
         try{
             File musique = new File("./fichiers_menus/musique_volumebas.wav");
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioInput);
+            clip.loop(200);
             clip.start();
         } catch (Exception e){
             System.out.println(e);
         }
     }
 
+    public static void stopMusique(){
+        clip.stop();
+    }
+
 
     @Override
-        public void start(Stage primaryStage) {
+        public void start(Stage primaryStage){
             primaryStage.setTitle("IUTO Space Invader");
             caracteres = new Group();
             root= new AnchorPane(caracteres);
@@ -92,6 +109,16 @@ public class LancementJeu extends Application {
                 if(key.getCode()==KeyCode.SPACE)
                     gestionnaire.toucheEspace();
             });
+            Image image = new Image("file:./fichiers_menus/espace.jpg");
+            BackgroundImage backImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, true)
+            );
+            Background background = new Background(backImage);
+            root.setBackground(background);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();

@@ -1,6 +1,11 @@
 import java.util.List;
 import java.util.ArrayList;
 import javafx.application.Platform;
+import java.io.File;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javafx.stage.Stage;
 
 public class GestionJeu {
     
@@ -59,6 +64,15 @@ public class GestionJeu {
 
     public void toucheEspace(){
         this.projectile = new Projectile(vaisseau.positionCanon(), 4);
+        try{
+            File musique = new File("./fichiers_menus/bruitlaser.wav");
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     public EnsembleChaines getChaines(){
@@ -83,19 +97,32 @@ public class GestionJeu {
             ArrayList<Projectile> ballesReussies = new ArrayList<>();
             ArrayList<Alien> aliensTouches = new ArrayList<>();
             if(this.projectile != null){
-                this.projectile.evolue();
+                if(this.projectile.getPositionY() > this.getHauteur()){
+                    this.projectile = null;
+                } else {
+                    this.projectile.evolue();
+                }
             }
             for(Alien alien : this.lesAliens){
                 if(this.projectile != null){
                     if(alien.contient((int) this.projectile.getPositionX(), (int) this.projectile.getPositionY())){
+                        try{
+                            File musique = new File("./fichiers_menus/alienmeurt.wav");
+                            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
+                            Clip clip = AudioSystem.getClip();
+                            clip.open(audioInput);
+                            clip.start();
+                        } catch (Exception e){
+                            System.out.println(e);
+                        }
                         ballesReussies.add(this.projectile);
                         aliensTouches.add(alien);
-                        score.ajoute(10);
+                        score.ajoute(100);
                         nbrAliensEnVie.enleve();
                     }
                 }
-                if(alien.contient(50,6)){
-                    Platform.exit(); //perdu
+                if(alien.getPosY()<10){ //perdu
+                    System.out.println("Perdu");
                 }
                 alien.evolue();
                 alien.ajouterTour();  
@@ -108,7 +135,10 @@ public class GestionJeu {
             }
             this.chaines = new EnsembleChaines();
         } else {
-            Platform.exit();
+            MenuGagne partieGagne = new MenuGagne();
+            Stage stage = new Stage();
+            partieGagne.start(stage);
+            LancementJeu.stopAnimation();
         }
     }
 }

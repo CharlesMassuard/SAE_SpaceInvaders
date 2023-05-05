@@ -63,6 +63,9 @@ public class MenuOptions extends Application{
     }
 
     public void debut(){
+        try{
+            LancementJeu.stopMusique();
+        } catch (Exception e){}
         LancementJeu executable = new LancementJeu();
         Stage stage = new Stage();
         Executable.getClip().stop();
