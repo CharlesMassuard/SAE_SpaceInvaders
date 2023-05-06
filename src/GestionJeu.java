@@ -147,7 +147,7 @@ public class GestionJeu {
                         nbrAliensEnVie.enleve();
                     }
                 }
-                if(alien.getPosY()<10 || this.score.getScore()<-100){ //perdu
+                if(alien.getPosY()<10 || this.score.getScore()<-500){ //perdu
                     MenuPerdu partieGagne = new MenuPerdu();
                     Stage stage = new Stage();
                     partieGagne.start(stage);
