@@ -30,15 +30,21 @@ import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 
-//MENU PRINCIPAL RECREE, MAINTENANT L'EXECUTABLE
+/**Menu affiché quand une partie est gagnée*/
 public class MenuGagne extends Application{
 
     private int score;
 
+    /**Initialisation
+     * @param score le score atteint par le joueur
+     */
     public MenuGagne(int score){
         this.score = score;
     }
 
+    /**La BorderPane regroupant tous les textes affichés sur le menu
+     * @return la BorderPane
+    */
     private BorderPane borderPane(){
         BorderPane pane = new BorderPane();
         Text titre = new Text("VOUS AVEZ GAGNÉ !");
@@ -62,7 +68,9 @@ public class MenuGagne extends Application{
         return pane;
     }
 
-
+    /**HBox regroupant les boutons affichés sur le menu
+     * @return la HBox
+     */
     private HBox boutons(){
         Executable menuP = new Executable();
         HBox pane = new HBox();
@@ -78,6 +86,9 @@ public class MenuGagne extends Application{
         return pane;
     }
 
+    /**Création de la HBox root
+     * @return la HBox root
+     */
     private HBox root(){
         HBox pane = new HBox(10);
         VBox vbox = new VBox(50);
@@ -101,28 +112,35 @@ public class MenuGagne extends Application{
         return pane;
     }
 
+    /**Méthode lancée quand le bouton "Recommencer" est appuyé
+     * Relance la partie avec les mêmes paramètres que celle précédente
+     */
     public void recommencer(){
-        LancementJeu.stopMusique();
-        LancementJeu jeu = new LancementJeu(LancementJeu.getNbrAliens(), LancementJeu.getNbrVagues());
+        LancementJeu.stopMusique(); //stop la musique, évite d'avoir une musique en double
+        LancementJeu jeu = new LancementJeu(LancementJeu.getNbrAliens(), LancementJeu.getNbrVagues()); //création du jeu avec les mêmes paramètres
         Stage stage = new Stage();
-        LancementJeu.fermerFenetre();
-        jeu.start(stage);
+        LancementJeu.fermerFenetre(); //ferme la fenetre de l'ancien jeu
+        jeu.start(stage); //lancement du jeu
     }
 
+    /**Méthode servant à reconfigurer une nouvelle partie
+     * Fait un retour au menu principal
+     */
     public void reconfig(){
-        LancementJeu.stopMusique();
+        LancementJeu.stopMusique(); //stop la musique
         Executable menu = new Executable();
         Stage stage = new Stage();
-        LancementJeu.fermerFenetre();
-        menu.start(stage);
+        LancementJeu.fermerFenetre(); //ferme la fenetre du jeu précédent
+        menu.start(stage); //lance le menu principal
     }
 
+    /**Lance le menu */
     @Override
     public void start(Stage stage){              
         Scene scene =new Scene(root());
         stage.setTitle("Space Invaders - Gagné");
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.show();
+        stage.show(); //Afiche la fenetre
     }
 }

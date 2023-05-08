@@ -26,7 +26,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 
+//Anciennement l'executable
+/**Classe servant à lancer le jeu Space Invaders*/
 public class LancementJeu extends Application {
+
     private static Pane root;
     private static Group caracteres;
     private static GestionJeu gestionnaire;
@@ -39,21 +42,30 @@ public class LancementJeu extends Application {
     private static Integer nbrAliens;
     private static Integer nbrVagues;
 
+    /**Initialisation du lancement du jeu
+     * @param nbrAliens le nombre d'Aliens à créer
+     * @param nbrVagues le nombre de Vagues à réaliser
+    */
     public LancementJeu(Integer nbrAliens, Integer nbrVagues){
         this.nbrAliens = nbrAliens;
         this.nbrVagues = nbrVagues;
     }
+
+    /**Récupérer le nombre d'Aliens à créer
+     * @return le nombre d'Aliens à créer
+     */
     public static int getNbrAliens(){
         return (int) nbrAliens;
     }
 
+    /**Récupérer le nombre de vagues à réaliser
+     * @return le nombre de vagues à réaliser
+     */
     public static int getNbrVagues(){
         return (int) nbrVagues;
     }
-    public static void main(String[] args) {
-        launch(args);
-    }
 
+    /**Permet d'afficher les caractères sur la fenetre du jeu */
     private static void afficherCaracteres(){
         caracteres.getChildren().clear();
         int hauteur = (int) root.getHeight();
@@ -66,6 +78,7 @@ public class LancementJeu extends Application {
         }
     }
 
+    /**Lancer l'animation */
     public static void lancerAnimation() {
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
@@ -81,14 +94,17 @@ public class LancementJeu extends Application {
         timeline.play();
     }
 
+    /**Stoper l'animation */
     public static void stopAnimation(){
         timeline.stop();
     }
 
+    /**Fermer la fenetre du jeu */
     public static void fermerFenetre(){
         stage.close();
     }
 
+    /**Lancer la musique du jeu */
     public static void lancerMusique(){
         try{
             File musique = new File("./fichiers_menus/musique_volumebas.wav");
@@ -102,11 +118,12 @@ public class LancementJeu extends Application {
         }
     }
 
+    /**Stoper la musique du jeu */
     public static void stopMusique(){
         clip.stop();
     }
 
-
+    /**Méthode pour lancer le jeu */
     @Override
         public void start(Stage primaryStage){
             stage = primaryStage;
@@ -119,7 +136,7 @@ public class LancementJeu extends Application {
             t.setFont(Font.font("Monospaced",10));
             hauteurTexte =(int) t.getLayoutBounds().getHeight();
             largeurCaractere = (int) t.getLayoutBounds().getWidth();
-
+            //Actions quand touches pressées
             Scene scene = new Scene(root,gestionnaire.getLargeur()*largeurCaractere,gestionnaire.getHauteur()*hauteurTexte);
             scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
                 if(key.getCode()==KeyCode.LEFT)
@@ -131,6 +148,7 @@ public class LancementJeu extends Application {
                 if(key.getCode()==KeyCode.ESCAPE)
                     gestionnaire.pauseMenu();
             });
+            //mise en place de l'image d'arrière plan
             Image image = new Image("file:./fichiers_menus/espace.jpg");
             BackgroundImage backImage = new BackgroundImage(
                 image,
@@ -144,8 +162,8 @@ public class LancementJeu extends Application {
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();
-            lancerMusique();
-            lancerAnimation();
+            lancerMusique(); //lancer la musique
+            lancerAnimation(); //lancer l'animation
 
         }
 }

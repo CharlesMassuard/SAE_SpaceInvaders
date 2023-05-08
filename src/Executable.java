@@ -53,6 +53,10 @@ public class Executable extends Application{
             this.nbrVagues = new TextField("5");
         }
 
+        /**Création du module BorderPane
+         * Contient le titre "SPACE INVADER"
+         * @return la BorderPane
+         */
         private BorderPane borderPane(){
             BorderPane pane = new BorderPane();
             Text titre = new Text("SPACE INVADERS");
@@ -66,6 +70,9 @@ public class Executable extends Application{
         }
     
     
+        /**Création de la HBox contenant les boutons "commencer" et "quitter"
+         * @return la HBox
+        */
         private HBox boutons(){
             HBox pane = new HBox();
             Button start = new Button("Commencer une partie");
@@ -78,6 +85,10 @@ public class Executable extends Application{
             return pane;
         }
 
+        /**Création de la GridPane contenant les paramètres
+         * Conteint les textes indicateurs ainsi que les TextFiels
+         * @return la GridPane
+         */
         private GridPane parametres(){
             GridPane pane = new GridPane();
             Text texte = new Text("Choisissez entre 6 à 24 aliens à combatttre : ");
@@ -99,6 +110,9 @@ public class Executable extends Application{
             return pane;
         }
     
+        /**Création de la HBox root, mise en forme
+         * @return la HBox root
+         */
         private HBox root(){
             HBox pane = new HBox(10);
             VBox vbox = new VBox(50);
@@ -122,41 +136,50 @@ public class Executable extends Application{
             return pane;
         }
 
+    /**Quitter l'application, appelée quand le bouton "Quitter" est appuyé
+     * Cette méthode est appelé lorsque le bouton "Quitter" est quitté, peut importe la fenetre sur laquelle il se trouve
+    */
     public void quitter(){
         Platform.exit();
     }
 
+    /**Lancer le jeu, appelée lorsque le bouton "Commencer" est appuyé
+     * Le jeu est lancé uniquement si les conditions de lancement sont respectées
+     * @boolean true si les conditions de lancement sont respectés, false sinon
+    */
     public boolean commencer(){
         try{
-        String nbrAliensRentre = nbrAliens.getText();
-        String nbrVaguesRentre = nbrVagues.getText();
-        Integer nbrAliensRentreInteger = Integer.parseInt(nbrAliensRentre);
-        Integer nbrVaguesInteger = Integer.parseInt(nbrVaguesRentre);
+        String nbrAliensRentre = nbrAliens.getText(); //récupère la valeur du TextField "nbrAliens"
+        String nbrVaguesRentre = nbrVagues.getText(); //récupère la valeur du TextField 'nbrVagues'
+        Integer nbrAliensRentreInteger = Integer.parseInt(nbrAliensRentre); //transformation du texte rentré en Integer
+        Integer nbrVaguesInteger = Integer.parseInt(nbrVaguesRentre); //transformation du texte rentré en Integer
             if(nbrAliensRentreInteger>=6 && nbrAliensRentreInteger<=24 && nbrVaguesInteger>=1){
-                clip.stop();
+                clip.stop(); //éteindre la musoqie
                 LancementJeu menu = new LancementJeu(nbrAliensRentreInteger, nbrVaguesInteger);
                 Stage stage = new Stage();
-                menu.start(stage);
+                menu.start(stage); //lancer le jeu
                 return true;
             } else {
-                ErreurParametres menu = new ErreurParametres();
+                ErreurParametres menu = new ErreurParametres(); 
                 Stage stage = new Stage();
-                menu.start(stage);
+                menu.start(stage); //lancer le pop-up d'erreur (ErreurParametres)
             }
         } catch (Exception e){
             ErreurParametres menu = new ErreurParametres();
             Stage stage = new Stage();
-            menu.start(stage);
+            menu.start(stage); //lancer le pop-up d'erreur (ErreurParametres)
         }
         return false;
     }
 
+    /**Méthode servant à lancer l'application */
     @Override
     public void start(Stage stage){              
         Scene scene =new Scene(root());
         stage.setTitle("Space Invaders - Menu Principal");
         stage.setScene(scene);
         stage.setResizable(false);
+        //Mise en place de la musique
         try{
             File musique = new File("./fichiers_menus/musique_volumebas.wav");
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(musique);
@@ -167,6 +190,6 @@ public class Executable extends Application{
         } catch (Exception e){
             System.out.println(e);
         }
-        stage.show();
+        stage.show(); //apparition de la fenetre
     }
 }

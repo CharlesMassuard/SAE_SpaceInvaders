@@ -30,9 +30,13 @@ import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 
-//MENU PRINCIPAL RECREE, MAINTENANT L'EXECUTABLE
+
+/**Menu affiché quand une partie est perdue*/
 public class MenuPerdu extends Application{
 
+    /**Création de la BorderPane affichant le texte
+     * @return la BorderPane
+     */
     private BorderPane borderPane(){
         BorderPane pane = new BorderPane();
         Text titre = new Text("VOUS AVEZ PERDU :'(");
@@ -44,6 +48,9 @@ public class MenuPerdu extends Application{
     }
 
 
+    /**Création de la HBox regroupant les boutons
+     * @return la HBox
+     */
     private HBox boutons(){
         Executable menuP = new Executable();
         MenuGagne menuG = new MenuGagne(0);
@@ -60,6 +67,9 @@ public class MenuPerdu extends Application{
         return pane;
     }
 
+    /**Création de la HBox root
+     * @return la HBox
+     */
     private HBox root(){
         HBox pane = new HBox(10);
         VBox vbox = new VBox(50);
@@ -83,6 +93,7 @@ public class MenuPerdu extends Application{
         return pane;
     }
 
+    /**Méthode servant à recommencer la partie*/
     public void recommencer(){
         LancementJeu.stopMusique();
         LancementJeu jeu = new LancementJeu(LancementJeu.getNbrAliens(), LancementJeu.getNbrVagues());
@@ -91,6 +102,7 @@ public class MenuPerdu extends Application{
         jeu.start(stage);
     }
 
+    /**Méthode servant à retourner au menu principal */
     public void reconfig(){
         LancementJeu.stopMusique();
         Executable menu = new Executable();
@@ -100,6 +112,7 @@ public class MenuPerdu extends Application{
         menu.init(); //lancer la musique du menu principal
     }
 
+    /**Lancement du menu */
     @Override
     public void start(Stage stage){              
         Scene scene =new Scene(root());

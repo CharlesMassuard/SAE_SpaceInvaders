@@ -25,16 +25,20 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import java.io.File;
-import java.security.spec.ECFieldF2m;
-
 import javax.sound.sampled.Clip;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 
+
+/**Menu affiché quand une partie est mise en pause*/
 public class MenuPause extends Application{
 
 
+    /**Création de la VBox principale
+     * Compend tout ce qui est affiché
+     * @return la VBpx
+     */
     private VBox vbox(){
         Executable menuP = new Executable();
         MenuGagne menuG = new MenuGagne(0);
@@ -51,11 +55,14 @@ public class MenuPause extends Application{
         pane.getChildren().addAll(texte, reprendre, reconfig, quitter);
         pane.setAlignment(Pos.CENTER);
         reprendre.setOnAction(new ControleurReprendre(this));
-        reconfig.setOnAction(new ControleurRetourMenu(menuG));
-        quitter.setOnAction(new ControleurQuitter(menuP));
+        reconfig.setOnAction(new ControleurRetourMenu(menuG)); //Controler du MenuGagne réutilisé
+        quitter.setOnAction(new ControleurQuitter(menuP)); //Controleur du menu principal réutilisé
         return pane;
     }
 
+    /**Création de la HBox root
+     * @return la HBox root
+     */
     private HBox root(){
         HBox pane = new HBox(10);
         VBox vbox = new VBox(50);
@@ -77,10 +84,14 @@ public class MenuPause extends Application{
         return pane;
     }
 
+    /**Fonction servant à reprendre le jeu lorsque le bouton "reprendre" est appuyé
+     * Appel la fonction reprendre de la classe GestionJeu
+     */
     public void reprendre(){
         GestionJeu.reprendre();
     }
 
+    /**Lancement du menu */
     @Override
     public void start(Stage stage){              
         Scene scene =new Scene(root());

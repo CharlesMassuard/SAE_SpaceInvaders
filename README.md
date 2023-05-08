@@ -1,5 +1,7 @@
-```java
-javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls -d ./bin ./src/ *.java
-java -ea -cp bin:img --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls AppliConverter
-javadoc --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls -d doc -charset utf8 -noqualifier all src/*.java
-```
+Bonjour,
+
+Pour lancer le jeu, entrez la commande **sh start.sh** dans un terminal.
+
+Pour obtenir toutes les fonctionnalités du jeu ainsi que le mode d'emploi, vous pouvez regarder le fichier *Mode-Emploi.docx*
+
+Bon jeu !
